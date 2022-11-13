@@ -12,7 +12,23 @@ namespace Nipendo.Evaluation
     public class RatingEngine
     {
         public decimal Rating { get; set; }
-        public void Rate()
+        
+        private static bool IsYearDeductionRequired(DateTime dateOfBirth) {
+            return DateTime.Today.Month < dateOfBirth.Month || 
+                   dateOfBirth.Month == DateTime.Today.Month &&
+                   DateTime.Today.Day < dateOfBirth.Day;
+        }
+
+        private static int CalculateAge(DateTime dateOfBirth) { 
+            int age = DateTime.Today.Year - dateOfBirth.Year;
+            if (IsYearDeductionRequired(dateOfBirth))
+            {
+                age--;
+            }
+            return age;
+        }
+        
+        public void Rate(String jsonFilePath)
         {
             // log start rating
             Console.WriteLine("Starting rate.");
@@ -20,7 +36,7 @@ namespace Nipendo.Evaluation
             Console.WriteLine("Loading policy.");
 
             // load policy - open file policy.json
-            string policyJson = File.ReadAllText("policy.json");
+            string policyJson = File.ReadAllText(jsonFilePath);
 
             var policy = JsonConvert.DeserializeObject<Policy>(policyJson,
                 new StringEnumConverter());
@@ -58,16 +74,16 @@ namespace Nipendo.Evaluation
                 case PolicyType.Travel:
                     Console.WriteLine("Rating TRAVEL policy...");
                     Console.WriteLine("Validating policy.");
-                    if (policy.Days <=0)
+                    switch (policy.Days)
                     {
-                        Console.WriteLine("Travel policy must specify Days.");
-                        return;
+                        case <= 0:
+                            Console.WriteLine("Travel policy must specify Days.");
+                            return;
+                        case > 180:
+                            Console.WriteLine("Travel policy cannot be more then 180 Days.");
+                            return;
                     }
-                    if (policy.Days >180)
-                    {
-                        Console.WriteLine("Travel policy cannot be more then 180 Days.");
-                        return;
-                    }
+
                     if (String.IsNullOrEmpty(policy.Country))
                     {
                         Console.WriteLine("Travel policy must specify country.");
@@ -99,20 +115,14 @@ namespace Nipendo.Evaluation
                         return;
                     }
                     
-                    int age = DateTime.Today.Year - policy.DateOfBirth.Year;
-                    if (policy.DateOfBirth.Month == DateTime.Today.Month &&
-                        DateTime.Today.Day < policy.DateOfBirth.Day ||
-                        DateTime.Today.Month < policy.DateOfBirth.Month)
-                    {
-                        age--;
-                    }
-                    decimal baseRate = policy.Amount * age / 200;
+                    int age = CalculateAge(policy.DateOfBirth);
+                    
+                    
+                    Rating = policy.Amount * age / 200;
                     if (policy.IsSmoker)
                     {
-                        Rating = baseRate * 2;
-                        break;
+                        Rating *= 2;
                     }
-                    Rating = baseRate;
                     break;
 
                 default:

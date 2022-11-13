@@ -9,7 +9,7 @@ namespace Nipendo.Evaluation
             Console.WriteLine("Insurance Rating System Starting...");
 
             var engine = new RatingEngine();
-            engine.Rate();
+            engine.Rate("policy.json");
 
             if (engine.Rating > 0)
             {

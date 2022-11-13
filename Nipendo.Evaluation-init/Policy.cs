@@ -9,7 +9,8 @@ namespace Nipendo.Evaluation
         public PolicyType Type { get; set; }
 
         #region General Policy Prop
-        public string FullName { get; set; }
+        //FullName never used
+        //public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
         #endregion
 

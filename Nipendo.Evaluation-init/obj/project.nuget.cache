@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "6jqGwXpJ94f2gPPcOUPLbTNaWi23T3eNQSyTH/cf1eishhGUcubTLg0DRfKFmEBin2uJc5b+7tHqeb1C+h9JGA==",
+  "success": true,
+  "projectFilePath": "/Users/talalum/RiderProjects/Rating---Nipendo-evaluation-init/Nipendo.Evaluation-init/dotnet-console.csproj",
+  "expectedPackageFiles": [
+    "/Users/talalum/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/talalum/.nuget/packages/microsoft.netcore.app.ref/5.0.0/microsoft.netcore.app.ref.5.0.0.nupkg.sha512",
+    "/Users/talalum/.nuget/packages/microsoft.aspnetcore.app.ref/5.0.0/microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "/Users/talalum/.nuget/packages/microsoft.netcore.app.host.osx-x64/5.0.17/microsoft.netcore.app.host.osx-x64.5.0.17.nupkg.sha512"
+  ],
+  "logs": []
+}
